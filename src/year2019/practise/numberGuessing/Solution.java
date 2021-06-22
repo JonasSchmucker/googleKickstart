@@ -2,7 +2,7 @@ package year2019.practise.numberGuessing;
 import java.util.*;
 import java.io.*;
 
-class Main {
+public class Solution {
     final static String small = "TOO_SMALL";
     final static String large = "TOO_BIG";
     final static String correct = "CORRECT";
