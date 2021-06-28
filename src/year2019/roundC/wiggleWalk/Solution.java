@@ -60,6 +60,9 @@ public class Solution {
         }
 
         void move(Direction instruction, boolean [][] visited) {
+            if(instruction == null){
+                return;
+            }
             visited[row][column] = true;
             switch (instruction){
                 case NORTH:
