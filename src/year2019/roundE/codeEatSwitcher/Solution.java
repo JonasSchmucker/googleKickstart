@@ -1,4 +1,4 @@
-package year2019.roundF.codeEatSwitcher;
+package year2019.roundE.codeEatSwitcher;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,6 +24,10 @@ public class Solution {
         ArrayList<Long> toAdd = new ArrayList<>();
 
         for(int testcase = 1; testcase < testcases + 1; testcase++) {
+            Arrays.fill(coding, 0);
+            Arrays.fill(eating, 0);
+            Arrays.fill(minPoints, null);
+
             days = sc.nextInt();
             slotsPerDay = sc.nextInt();
             codingToPoints.put(0L, new Point(0, 0));
@@ -49,29 +53,31 @@ public class Solution {
                 values.addAll(toAdd);
                 toAdd.clear();
 
-                int firstLast = 0;
-                for(Long thisValue : values){
-                    if(firstLast != 0 && firstLast != values.size() - 1){
-                        if(redundant(codingToPoints, values, codingToPoints.get(thisValue))){
-                            toAdd.add(thisValue);
+                int lastValuesSize = 0;
+                while(lastValuesSize != values.size()) {
+                    lastValuesSize = values.size();
+                    int firstLast = 0;
+                    for (Long thisValue : values) {
+                        if (firstLast != 0 && firstLast != values.size() - 1) {
+                            if (redundant(codingToPoints, values, codingToPoints.get(thisValue))) {
+                                toAdd.add(thisValue);
+                            }
                         }
+                        firstLast++;
                     }
-                    firstLast++;
+
+                    values.removeAll(toAdd);
+                    codingToPoints.keySet().removeAll(toAdd);
+                    toAdd.clear();
                 }
-
-                values.removeAll(toAdd);
-                codingToPoints.keySet().removeAll(toAdd);
-                toAdd.clear();
             }
-
-            printOutput(testcase);
+            boolean [] answers = new boolean[days];
 
             for(int i = 0; i < days; i++){
-                System.out.print(possible(codingToPoints, values, minPoints[i]) ? "Y": "N");
+                answers[i] = possible(codingToPoints, values, minPoints[i]);
             }
 
-
-            System.out.println();
+            printOutput(testcase, answers);
         }
     }
 
@@ -127,7 +133,11 @@ public class Solution {
         }
     }
 
-    public static void printOutput(int testcase){
+    public static void printOutput(int testcase, boolean[] answers){
         System.out.print("Case #" + testcase +": ");
+        for(boolean b : answers){
+            System.out.print(b ? "Y" : "N");
+        }
+        System.out.println();
     }
 }
